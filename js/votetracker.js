@@ -42,10 +42,17 @@ var VOTE_MODULE = (function() {
     }
   }
 
+  my.addpic = function(fileName, position) {
+    var picNode = document.createElement("img");
+    picNode.src = ( "img/" + fileName );
+    picNode.className = position;
+    my.anchorNode.appendChild( picNode );
+  }
+
   /* Functions Called */
 
   my.pictures.init( defaultInput );
-
+  my.addpic(my.pictures[0].fileName, "left");
   return my;
 
 } )();
