@@ -88,7 +88,6 @@ var VOTE_MODULE = (function() {
 					  "left");
 	var rightImage = new ImageElement(my.pictures[ my.randomizedIndices.pop() ].fileName,
 					  "right");
-	console.log(my.anchorNode);
 	my.anchorNode.appendChild( leftImage.element );
 	my.anchorNode.appendChild( rightImage.element );
     }
