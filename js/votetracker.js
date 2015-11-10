@@ -42,7 +42,8 @@ function Picture( name, fileName ) {
 function ImageElement( fileName, position ) {
     this.element = document.createElement( "img" );
     this.element.src = ( "img/" +  fileName );
-    this.element.className = position;
+    this.element.id = position;
+    this.element.className = "candidates"
 }
 
 var VOTE_MODULE = (function() {
@@ -51,6 +52,7 @@ var VOTE_MODULE = (function() {
     my.anchorNode = document.getElementById( "AnchorNode" );
     my.pictures = [];
     my.randomizedIndices = [];
+    my.candidates = [];
     
     
     /* * * * * * * * * * * * * * * * * * *
@@ -58,11 +60,11 @@ var VOTE_MODULE = (function() {
      * * * * * * * * * * * * * * * * * * */
     
     my.pictures.init = function( initData ) {
-	for ( var ii=0; ii < initData.length; ii++ ) {
-	    var picture = new Picture( initData[ii][0],
-                                       initData[ii][1] );
-	    my.pictures.push( picture );
-	}
+    	for ( var ii=0; ii < initData.length; ii++ ) {
+    	    var picture = new Picture( initData[ii][0],
+                                           initData[ii][1] );
+    	    my.pictures.push( picture );
+    	}
     }
     
     my.generateRandomIndices = function( length ) {
@@ -84,12 +86,20 @@ var VOTE_MODULE = (function() {
 	if ( my.randomizedIndices.length < 2 ) {
 	    my.generateRandomIndices( my.pictures.length );
 	}
-	var leftImage =  new ImageElement(my.pictures[ my.randomizedIndices.pop() ].fileName,
+    var leftIndex = my.randomizedIndices.pop();
+    var rightIndex = my.randomizedIndices.pop();
+    my.candidates = [leftIndex, rightIndex];
+	var leftImage =  new ImageElement(my.pictures[leftIndex].fileName,
 					  "left");
-	var rightImage = new ImageElement(my.pictures[ my.randomizedIndices.pop() ].fileName,
+	var rightImage = new ImageElement(my.pictures[rightIndex].fileName,
 					  "right");
 	my.anchorNode.appendChild( leftImage.element );
 	my.anchorNode.appendChild( rightImage.element );
+    }
+
+    my.removePics = function() {
+        my.anchorNode.removeChild(document.getElementById("left"));
+        my.anchorNode.removeChild(document.getElementById("right"));
     }
 
     
@@ -97,8 +107,36 @@ var VOTE_MODULE = (function() {
      ***** Stuff Actually Happens ******
      ***********************************/
     
+    my.eventHandler = function() {
+        var leftPic = document.getElementById("left");
+        leftPic.addEventListener("click",function() {my.click("left")}, false);
+        var rightPic = document.getElementById("right");
+        rightPic.addEventListener("click", function() {my.click("right")}, false);
+        return true;
+    }
+    my.click = function (position) {
+        //var element = document.getElementsById(position);
+        if(position == "left"){
+            my.pictures[my.candidates[0]].vote++;
+            
+        } else if (position == "right") {
+            my.pictures[my.candidates[1]].vote++;
+
+        } else {
+            console.log("We have error in myclick function");
+            return false;
+        }
+        my.removePics();
+        my.postNewPics();
+    }
+    
     my.pictures.init( defaultInput );
     my.postNewPics();
+    my.eventHandler();
+   
+    /*while (my.eventHandler()) {
+        my.postNewPics();
+    }*/
 
     return my;
     
