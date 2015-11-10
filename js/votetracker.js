@@ -28,7 +28,6 @@ var defaultInput = [ ["Asparagus",   "asparagus-2039__180.jpg"],
                      ["Pepper",      "yellowpepper-22111__180.jpg"] ];
 
 
-
     /* * * * * * * * * * * * * * * * * * *
      * * * * * * CONSTRUCTORS  * * * * * *
      * * * * * * * * * * * * * * * * * * */   
@@ -43,7 +42,7 @@ function ImageElement( fileName, position ) {
     this.element = document.createElement( "img" );
     this.element.src = ( "img/" +  fileName );
     this.element.id = position;
-    this.element.className = "candidates"
+    this.element.className = "ccontestants"
 }
 
 var VOTE_MODULE = (function() {
@@ -52,7 +51,7 @@ var VOTE_MODULE = (function() {
     my.anchorNode = document.getElementById( "AnchorNode" );
     my.pictures = [];
     my.randomizedIndices = [];
-    my.candidates = [];
+    my.contestants = [];
     
     
     /* * * * * * * * * * * * * * * * * * *
@@ -86,27 +85,28 @@ var VOTE_MODULE = (function() {
 	if ( my.randomizedIndices.length < 2 ) {
 	    my.generateRandomIndices( my.pictures.length );
 	}
-    var leftIndex = my.randomizedIndices.pop();
-    var rightIndex = my.randomizedIndices.pop();
-    my.candidates = [leftIndex, rightIndex];
-	var leftImage =  new ImageElement(my.pictures[leftIndex].fileName,
-					  "left");
-	var rightImage = new ImageElement(my.pictures[rightIndex].fileName,
-					  "right");
-	my.anchorNode.appendChild( leftImage.element );
-	my.anchorNode.appendChild( rightImage.element );
+
+	// Store left and right index
+	my.contestants = [my.randomizedIndices.pop(), my.randomizedIndices.pop()];
+	
+	// If the image tags exist, update their source tags. Otherwise, create them.
+	if ( document.getElementById("left") && document.getElementById("left") ) {
+	    var leftImage  = document.getElementById("left");
+	    var rightImage = document.getElementById("right");
+	    leftImage.src  = ( "img/" +  my.pictures[ my.contestants[0] ].fileName );
+	    rightImage.src = ( "img/" +  my.pictures[ my.contestants[1] ].fileName );
+
+	} else {
+	    var leftImage =  new ImageElement(my.pictures[ my.contestants[0] ].fileName,
+					      "left");
+	    var rightImage = new ImageElement(my.pictures[ my.contestants[1] ].fileName,
+					      "right");
+	    my.anchorNode.appendChild( leftImage.element );
+	    my.anchorNode.appendChild( rightImage.element );
+
+	}
     }
 
-    my.removePics = function() {
-        my.anchorNode.removeChild(document.getElementById("left"));
-        my.anchorNode.removeChild(document.getElementById("right"));
-    }
-
-    
-    /*********************************** 
-     ***** Stuff Actually Happens ******
-     ***********************************/
-    
     my.eventHandler = function() {
         var leftPic = document.getElementById("left");
         leftPic.addEventListener("click",function() {my.click("left")}, false);
@@ -114,30 +114,40 @@ var VOTE_MODULE = (function() {
         rightPic.addEventListener("click", function() {my.click("right")}, false);
         return true;
     }
+    
     my.click = function (position) {
         //var element = document.getElementsById(position);
         if(position == "left"){
-            my.pictures[my.candidates[0]].vote++;
+            my.pictures[my.contestants[0]].vote++;
             
         } else if (position == "right") {
-            my.pictures[my.candidates[1]].vote++;
+            my.pictures[my.contestants[1]].vote++;
 
         } else {
             console.log("We have error in myclick function");
             return false;
         }
-        my.removePics();
         my.postNewPics();
     }
+    
+    /*
+    // I don't think there is actually any need to call this.
+    // If we update the src tag instead, we never need a new event handler.
+    my.removePics = function() {
+        my.anchorNode.removeChild(document.getElementById("left"));
+        my.anchorNode.removeChild(document.getElementById("right"));
+    }
+    */
+    
+    
+    /*********************************** 
+     ***** Stuff Gets Called Here ******
+     ***********************************/
     
     my.pictures.init( defaultInput );
     my.postNewPics();
     my.eventHandler();
    
-    /*while (my.eventHandler()) {
-        my.postNewPics();
-    }*/
-
     return my;
     
 } )();
