@@ -3,7 +3,7 @@
  * Created by   John Hearn     *
  *              Doug Popadince *
  *              Max Jacobson   *
- * CF201       Fall 2015       *
+ * CF201        Fall 2015      *
  * * * * * * * * * * * * * * * */
 
 var defaultInput = [ [ "Asparagus",   "asparagus-2039__180.jpg" ],
