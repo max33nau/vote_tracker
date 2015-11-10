@@ -73,6 +73,10 @@ var VOTE_MODULE = (function() {
 	}
 
 	while ( tempIndexArray.length > 0 ) {
+	    // If there is an odd number of candidates we may have one index
+	    // left in our array, so we empty it.
+	    my.randomizedIndices = [ ];
+	    
 	    var index = Math.floor( Math.random() * tempIndexArray.length );
 	    // Splice() deletes an element from an array and returns it as a single
 	    // element array. We dereference it and push onto our array of indices.
@@ -82,6 +86,7 @@ var VOTE_MODULE = (function() {
 
     my.postNewPics = function() {
 	// I'm gonna pop two indices so my array needs at least that many.
+	// If there is 1 or 0, we start fresh with a new randomization.
 	if ( my.randomizedIndices.length < 2 ) {
 	    my.generateRandomIndices( my.pictures.length );
 	}
