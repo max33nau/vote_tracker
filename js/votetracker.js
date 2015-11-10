@@ -99,10 +99,10 @@ var VOTE_MODULE = (function() {
 	}
 
 	// Store left and right index
-  console.log("Previous Random: " + my.randomizedIndices);
+
 	my.contestants = [ my.randomizedIndices.pop(), my.randomizedIndices.pop() ];
-  console.log(my.contestants);
-  console.log("After Random: " + my.randomizedIndices);
+
+
 	// If the image tags exist, update their source tags. Otherwise, create them.
 	if ( document.getElementById( "left" ) && document.getElementById( "right" ) ) {
 	    var leftImage  = document.getElementById( "left" );
