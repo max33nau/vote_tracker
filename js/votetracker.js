@@ -80,7 +80,8 @@ var VOTE_MODULE = (function() {
 
       /* JOHN ADDED FOR LOOP HERE BECAUSE WE
       WERE GETTING A ERROR SAYING OUR RIGHT OBJECT WAS UNDEFINED SO I MADE IT SO
-      THE ARRAY HAS TWO VALUES THAT WAY THE RIGHT OBJECT IS DEFINED */
+      THE ARRAY HAS TWO VALUES THAT WAY THE RIGHT OBJECT IS DEFINED. YOU PUSHED A
+      CODE WITH A BUG IN IT... DONUTS FOR EVERYONE!!!!!*/
 
 	    var index = Math.floor( Math.random() * tempIndexArray.length );
 	    // Splice() deletes an element from an array and returns it as a single
