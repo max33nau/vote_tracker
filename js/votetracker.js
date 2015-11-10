@@ -86,6 +86,7 @@ var VOTE_MODULE = (function() {
 
     my.postNewPics = function() {
 	// I'm gonna pop two indices so my array needs at least that many.
+	// If there is 1 or 0, we start fresh with a new randomization.
 	if ( my.randomizedIndices.length < 2 ) {
 	    my.generateRandomIndices( my.pictures.length );
 	}
