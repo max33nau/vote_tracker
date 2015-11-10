@@ -73,6 +73,10 @@ var VOTE_MODULE = (function() {
 	}
 
 	while ( tempIndexArray.length > 0 ) {
+	    // If there is an odd number of candidates we may have one index
+	    // left in our array, so we empty it.
+	    my.randomizedIndices = [ ];
+	    
 	    var index = Math.floor( Math.random() * tempIndexArray.length );
 	    // Splice() deletes an element from an array and returns it as a single
 	    // element array. We dereference it and push onto our array of indices.
