@@ -110,7 +110,7 @@ var VOTE_MODULE = (function() {
 	    var rightImage = document.getElementById( "right" );
 	    leftImage.src  = ( "img/" +  my.pictures[ my.contestants[0] ].fileName );
 	    rightImage.src = ( "img/" +  my.pictures[ my.contestants[1] ].fileName );
-
+        buildChart();
 	} else {
 
 	    var leftImage =  new ImageElement( my.pictures[ my.contestants[0] ].fileName,
@@ -119,7 +119,7 @@ var VOTE_MODULE = (function() {
 					       "right");
 	    my.anchorNode.appendChild( leftImage.element );
 	    my.anchorNode.appendChild( rightImage.element );
-
+        buildChart();
 	}
     }
 
@@ -146,14 +146,36 @@ var VOTE_MODULE = (function() {
         my.postNewPics();
     }
 
-    /*
-    // I don't think there is actually any need to call this.
-    // If we update the src tag instead, we never need a new event handler.
-    my.removePics = function() {
-        my.anchorNode.removeChild(document.getElementById("left"));
-        my.anchorNode.removeChild(document.getElementById("right"));
-    }
-    */
+//----------------charting section------------------------------//
+function buildChart (){
+    var ctx = document.getElementById("myChart").getContext("2d");
+    var myChartObj = {};
+var data = {
+    labels: [my.pictures[ my.contestants[0] ].name, my.pictures[ my.contestants[1] ].name],
+    datasets: [
+      { label: "Raw votes",
+        fillColor: "rgba(220,220,220,0.5)",
+        strokeColor: "rgba(220,220,220,0.8)",
+        highlightFill: "rgba(220,220,220,0.75)",
+        highlightStroke: "rgba(220,220,220,1)",
+        data: [my.pictures[ my.contestants[0] ].vote, my.pictures[ my.contestants[1] ].vote] // Bogus data -- use your vote counts instead
+      },
+      { label: "Percentage split",
+        fillColor: "rgba(151,187,205,0.5)",
+        strokeColor: "rgba(151,187,205,0.8)",
+        highlightFill: "rgba(151,187,205,0.75)",
+        highlightStroke: "rgba(151,187,205,1)",
+        data: [5/(5+2), 2/(5+2)]
+      }
+    ]
+  };
+  myChartObj = new Chart(ctx).Bar(data);
+
+  /*** !! Insert code HERE to draw your chart and make it visible !! ***/
+
+
+}
+
 
 
     /***********************************
