@@ -27,7 +27,8 @@ var defaultInput = [ [ "Asparagus",   "asparagus-2039__180.jpg" ],
                      [ "Soup",        "whipcreamSoup.jpg" ],
                      [ "Pepper",      "yellowpepper-22111__180.jpg" ] ];
 
-
+//----adding global var to store total votes for al items to be used for charting percents--//
+var total =20;
     /* * * * * * * * * * * * * * * * * * *
      * * * * * * CONSTRUCTORS  * * * * * *
      * * * * * * * * * * * * * * * * * * */
@@ -134,10 +135,11 @@ var VOTE_MODULE = (function() {
     my.click = function( position ) {
         if( position == "left" ) {
             my.pictures[ my.contestants[0] ].vote++;
+            total++;
 
         } else if( position == "right" ) {
             my.pictures[my.contestants[1]].vote++;
-
+            total++;
         } else {
             console.log( " MODULE method my.click() was passes an invalid parameter" );
             return false;
@@ -150,30 +152,30 @@ var VOTE_MODULE = (function() {
 function buildChart (){
     var ctx = document.getElementById("myChart").getContext("2d");
     var myChartObj = {};
+    var leftContestant = my.pictures[ my.contestants[0]];
+    var rightContestant = my.pictures[ my.contestants[1]];
 var data = {
-    labels: [my.pictures[ my.contestants[0] ].name, my.pictures[ my.contestants[1] ].name],
+    labels: [leftContestant.name, rightContestant.name],
     datasets: [
       { label: "Raw votes",
         fillColor: "rgba(220,220,220,0.5)",
         strokeColor: "rgba(220,220,220,0.8)",
         highlightFill: "rgba(220,220,220,0.75)",
         highlightStroke: "rgba(220,220,220,1)",
-        data: [my.pictures[ my.contestants[0] ].vote, my.pictures[ my.contestants[1] ].vote] // Bogus data -- use your vote counts instead
+        data: [leftContestant.vote, rightContestant.vote] // Bogus data -- use your vote counts instead
       },
       { label: "Percentage split",
         fillColor: "rgba(151,187,205,0.5)",
         strokeColor: "rgba(151,187,205,0.8)",
         highlightFill: "rgba(151,187,205,0.75)",
         highlightStroke: "rgba(151,187,205,1)",
-        data: [5/(5+2), 2/(5+2)]
+        data: [leftContestant.vote/(total), rightContestant.vote/(total)]
       }
     ]
   };
   myChartObj = new Chart(ctx).Bar(data);
 
   /*** !! Insert code HERE to draw your chart and make it visible !! ***/
-
-
 }
 
 
