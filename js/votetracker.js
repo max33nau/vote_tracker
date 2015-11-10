@@ -72,22 +72,24 @@ var VOTE_MODULE = (function() {
 	    tempIndexArray.push( ii );
 	}
 
+  my.randomizedIndices = [ ];
+
 	while ( tempIndexArray.length > 0 ) {
 	    // If there is an odd number of candidates we may have one index
 	    // left in our array, so we empty it.
-	    my.randomizedIndices = [ ];
-    for( var ii = 0; ii < 2; ii++ ) {
 
-      /* JOHN ADDED FOR LOOP HERE BECAUSE WE
-      WERE GETTING A ERROR SAYING OUR RIGHT OBJECT WAS UNDEFINED SO I MADE IT SO
-      THE ARRAY HAS TWO VALUES THAT WAY THE RIGHT OBJECT IS DEFINED. YOU PUSHED A
+      console.log("temp before: " + my.randomizedIndices);
+
+
+      /*  YOU PUSHED A
       CODE WITH A BUG IN IT... DONUTS FOR EVERYONE!!!!!*/
 
 	    var index = Math.floor( Math.random() * tempIndexArray.length );
 	    // Splice() deletes an element from an array and returns it as a single
 	    // element array. We dereference it and push onto our array of indices.
-	    my.randomizedIndices.push( tempIndexArray.splice( index , 1 )[0] );
-    }
+	    my.randomizedIndices.push( tempIndexArray.splice( index , 1 ) );
+
+    console.log("temp after: " + my.randomizedIndices);
 	}
 }
 
@@ -101,7 +103,7 @@ var VOTE_MODULE = (function() {
 	// Store left and right index
 
 	my.contestants = [ my.randomizedIndices.pop(), my.randomizedIndices.pop() ];
-
+  console.log(my.contestants);
 
 	// If the image tags exist, update their source tags. Otherwise, create them.
 	if ( document.getElementById( "left" ) && document.getElementById( "right" ) ) {
