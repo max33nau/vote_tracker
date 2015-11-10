@@ -6,26 +6,26 @@
  * CF201       Fall 2015       *
  * * * * * * * * * * * * * * * */
 
-var defaultInput = [ ["Asparagus",   "asparagus-2039__180.jpg"],
-                     ["Avocado",     "avocado-161822__180.png"],
-                     ["Cherries",    "bing-cherries-805416__180.jpg"],
-                     ["Turkey",      "blueMarinatedTurkey.jpg"],
-                     ["Condiments",  "condimentSprays.jpg"],
-                     ["CornDogs",    "cornDogs.jpg"],
-                     ["Candles",     "cranberryCandles.jpg"],
-                     ["CreamPuffs",  "cream-puffs-427181__180.jpg"],
-                     ["Egg",         "egg-157224__180.png"],
-                     ["Shrimp",      "frozenShrimp.jpg"],
-                     ["Casserole",   "frozenWhatAreThese.jpg"],
-                     ["Garlic",      "garlic-84691__180.jpg"],
-                     ["Soda",        "heatedSoda.jpg"],
-                     ["Jello",       "jelloMayoTurkey.jpg"],
-                     ["Fruit",       "kiwifruit-400143__180.jpg"],
-                     ["Mushrooms",   "mushrooms-756406__180.jpg"],
-                     ["Pasta",       "pasta-503952__180.jpg"],
-                     ["Tomato",      "tomatoes-320860__180.jpg"],
-                     ["Soup",        "whipcreamSoup.jpg"],
-                     ["Pepper",      "yellowpepper-22111__180.jpg"] ];
+var defaultInput = [ [ "Asparagus",   "asparagus-2039__180.jpg" ],
+                     [ "Avocado",     "avocado-161822__180.png" ],
+                     [ "Cherries",    "bing-cherries-805416__180.jpg" ],
+                     [ "Turkey",      "blueMarinatedTurkey.jpg" ],
+                     [ "Condiments",  "condimentSprays.jpg" ],
+                     [ "CornDogs",    "cornDogs.jpg" ],
+                     [ "Candles",     "cranberryCandles.jpg" ],
+                     [ "CreamPuffs",  "cream-puffs-427181__180.jpg" ],
+                     [ "Egg",         "egg-157224__180.png" ],
+                     [ "Shrimp",      "frozenShrimp.jpg" ],
+                     [ "Casserole",   "frozenWhatAreThese.jpg" ],
+                     [ "Garlic",      "garlic-84691__180.jpg" ],
+                     [ "Soda",        "heatedSoda.jpg" ],
+                     [ "Jello",       "jelloMayoTurkey.jpg" ],
+                     [ "Fruit",       "kiwifruit-400143__180.jpg" ],
+                     [ "Mushrooms",   "mushrooms-756406__180.jpg" ],
+                     [ "Pasta",       "pasta-503952__180.jpg" ],
+                     [ "Tomato",      "tomatoes-320860__180.jpg" ],
+                     [ "Soup",        "whipcreamSoup.jpg" ],
+                     [ "Pepper",      "yellowpepper-22111__180.jpg" ] ];
 
 
     /* * * * * * * * * * * * * * * * * * *
@@ -42,16 +42,16 @@ function ImageElement( fileName, position ) {
     this.element = document.createElement( "img" );
     this.element.src = ( "img/" +  fileName );
     this.element.id = position;
-    this.element.className = "ccontestants"
+    this.element.className = "contestants"
 }
 
 var VOTE_MODULE = (function() {
     
-    var my = {};
+    var my = { };
     my.anchorNode = document.getElementById( "AnchorNode" );
-    my.pictures = [];
-    my.randomizedIndices = [];
-    my.contestants = [];
+    my.pictures = [ ];
+    my.randomizedIndices = [ ];
+    my.contestants = [ ];
     
     
     /* * * * * * * * * * * * * * * * * * *
@@ -61,7 +61,7 @@ var VOTE_MODULE = (function() {
     my.pictures.init = function( initData ) {
     	for ( var ii=0; ii < initData.length; ii++ ) {
     	    var picture = new Picture( initData[ii][0],
-                                           initData[ii][1] );
+                                       initData[ii][1] );
     	    my.pictures.push( picture );
     	}
     }
@@ -87,20 +87,20 @@ var VOTE_MODULE = (function() {
 	}
 
 	// Store left and right index
-	my.contestants = [my.randomizedIndices.pop(), my.randomizedIndices.pop()];
+	my.contestants = [ my.randomizedIndices.pop(), my.randomizedIndices.pop() ];
 	
 	// If the image tags exist, update their source tags. Otherwise, create them.
-	if ( document.getElementById("left") && document.getElementById("left") ) {
-	    var leftImage  = document.getElementById("left");
-	    var rightImage = document.getElementById("right");
+	if ( document.getElementById( "left" ) && document.getElementById( "left" ) ) {
+	    var leftImage  = document.getElementById( "left" );
+	    var rightImage = document.getElementById( "right" );
 	    leftImage.src  = ( "img/" +  my.pictures[ my.contestants[0] ].fileName );
 	    rightImage.src = ( "img/" +  my.pictures[ my.contestants[1] ].fileName );
 
 	} else {
-	    var leftImage =  new ImageElement(my.pictures[ my.contestants[0] ].fileName,
-					      "left");
-	    var rightImage = new ImageElement(my.pictures[ my.contestants[1] ].fileName,
-					      "right");
+	    var leftImage =  new ImageElement( my.pictures[ my.contestants[0] ].fileName,
+					       "left");
+	    var rightImage = new ImageElement( my.pictures[ my.contestants[1] ].fileName,
+					       "right");
 	    my.anchorNode.appendChild( leftImage.element );
 	    my.anchorNode.appendChild( rightImage.element );
 
@@ -108,25 +108,25 @@ var VOTE_MODULE = (function() {
     }
 
     my.eventHandler = function() {
-        var leftPic = document.getElementById("left");
-        leftPic.addEventListener("click",function() {my.click("left")}, false);
+        var leftPic = document.getElementById( "left" );
+        leftPic.addEventListener( "click",function() { my.click( "left" ) }, false);
         var rightPic = document.getElementById("right");
-        rightPic.addEventListener("click", function() {my.click("right")}, false);
+        rightPic.addEventListener( "click", function() { my.click( "right" ) }, false);
         return true;
     }
     
-    my.click = function (position) {
-        //var element = document.getElementsById(position);
-        if(position == "left"){
-            my.pictures[my.contestants[0]].vote++;
+    my.click = function( position ) {
+        if( position == "left" ) {
+            my.pictures[ my.contestants[0] ].vote++;
             
-        } else if (position == "right") {
+        } else if( position == "right" ) {
             my.pictures[my.contestants[1]].vote++;
 
         } else {
-            console.log("We have error in myclick function");
+            console.log( " MODULE method my.click() was passes an invalid parameter" );
             return false;
         }
+	// Update the page with new pics
         my.postNewPics();
     }
     
