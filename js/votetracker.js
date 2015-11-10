@@ -78,11 +78,10 @@ var VOTE_MODULE = (function() {
 	    // If there is an odd number of candidates we may have one index
 	    // left in our array, so we empty it.
 
-      console.log("temp before: " + my.randomizedIndices);
-
-
-      /*  YOU PUSHED A
-      CODE WITH A BUG IN IT... DONUTS FOR EVERYONE!!!!!*/
+      /*my.randomizedIndices = [ ]; I moved this out of the while loop because
+      everytime you run through the loop it sets the array back to zero so our
+      randomizedIndices array never gets generated. 
+       YOU PUSHED A CODE WITH A BUG IN IT... DONUTS FOR EVERYONE!!!!!*/
 
 	    var index = Math.floor( Math.random() * tempIndexArray.length );
 	    // Splice() deletes an element from an array and returns it as a single
