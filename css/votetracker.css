@@ -16,10 +16,10 @@
   text-align: center;
   max-width: 100%;
   margin: 10px auto;
-  background-image: url('../img/backgroundimage.jpg')
+  background-image: url('../backgroundimage.jpg')
 }
 
-.candidates {
+.contestants {
   width: 300px;
   height: 300px;
   margin: 20px;
@@ -28,6 +28,6 @@
   background-color: white;
 }
 
-.candidates:hover {
+.contestants:hover {
   border: 10px solid white;
 }

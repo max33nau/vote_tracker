@@ -30,7 +30,7 @@ var defaultInput = [ [ "Asparagus",   "asparagus-2039__180.jpg" ],
 
     /* * * * * * * * * * * * * * * * * * *
      * * * * * * CONSTRUCTORS  * * * * * *
-     * * * * * * * * * * * * * * * * * * */   
+     * * * * * * * * * * * * * * * * * * */
 
 function Picture( name, fileName ) {
     this.name = name;
@@ -46,18 +46,18 @@ function ImageElement( fileName, position ) {
 }
 
 var VOTE_MODULE = (function() {
-    
+
     var my = { };
     my.anchorNode = document.getElementById( "AnchorNode" );
     my.pictures = [ ];
     my.randomizedIndices = [ ];
     my.contestants = [ ];
-    
-    
+
+
     /* * * * * * * * * * * * * * * * * * *
      * * * * PUBLIC MODULE METHODS * * * *
      * * * * * * * * * * * * * * * * * * */
-    
+
     my.pictures.init = function( initData ) {
     	for ( var ii=0; ii < initData.length; ii++ ) {
     	    var picture = new Picture( initData[ii][0],
@@ -65,7 +65,7 @@ var VOTE_MODULE = (function() {
     	    my.pictures.push( picture );
     	}
     }
-    
+
     my.generateRandomIndices = function( length ) {
 	var tempIndexArray = [ ];
 	for ( var ii = 0; ii < length; ii++ ) {
@@ -76,13 +76,19 @@ var VOTE_MODULE = (function() {
 	    // If there is an odd number of candidates we may have one index
 	    // left in our array, so we empty it.
 	    my.randomizedIndices = [ ];
-	    
+    for( var ii = 0; ii < 2; ii++ ) {
+
+      /* JOHN ADDED FOR LOOP HERE BECAUSE WE
+      WERE GETTING A ERROR SAYING OUR RIGHT OBJECT WAS UNDEFINED SO I MADE IT SO
+      THE ARRAY HAS TWO VALUES THAT WAY THE RIGHT OBJECT IS DEFINED */
+
 	    var index = Math.floor( Math.random() * tempIndexArray.length );
 	    // Splice() deletes an element from an array and returns it as a single
 	    // element array. We dereference it and push onto our array of indices.
 	    my.randomizedIndices.push( tempIndexArray.splice( index , 1 )[0] );
-	}
     }
+	}
+}
 
     my.postNewPics = function() {
 	// I'm gonna pop two indices so my array needs at least that many.
@@ -92,16 +98,19 @@ var VOTE_MODULE = (function() {
 	}
 
 	// Store left and right index
+  console.log("Previous Random: " + my.randomizedIndices);
 	my.contestants = [ my.randomizedIndices.pop(), my.randomizedIndices.pop() ];
-	
+  console.log(my.contestants);
+  console.log("After Random: " + my.randomizedIndices);
 	// If the image tags exist, update their source tags. Otherwise, create them.
-	if ( document.getElementById( "left" ) && document.getElementById( "left" ) ) {
+	if ( document.getElementById( "left" ) && document.getElementById( "right" ) ) {
 	    var leftImage  = document.getElementById( "left" );
 	    var rightImage = document.getElementById( "right" );
 	    leftImage.src  = ( "img/" +  my.pictures[ my.contestants[0] ].fileName );
 	    rightImage.src = ( "img/" +  my.pictures[ my.contestants[1] ].fileName );
 
 	} else {
+
 	    var leftImage =  new ImageElement( my.pictures[ my.contestants[0] ].fileName,
 					       "left");
 	    var rightImage = new ImageElement( my.pictures[ my.contestants[1] ].fileName,
@@ -119,11 +128,11 @@ var VOTE_MODULE = (function() {
         rightPic.addEventListener( "click", function() { my.click( "right" ) }, false);
         return true;
     }
-    
+
     my.click = function( position ) {
         if( position == "left" ) {
             my.pictures[ my.contestants[0] ].vote++;
-            
+
         } else if( position == "right" ) {
             my.pictures[my.contestants[1]].vote++;
 
@@ -134,7 +143,7 @@ var VOTE_MODULE = (function() {
 	// Update the page with new pics
         my.postNewPics();
     }
-    
+
     /*
     // I don't think there is actually any need to call this.
     // If we update the src tag instead, we never need a new event handler.
@@ -143,16 +152,16 @@ var VOTE_MODULE = (function() {
         my.anchorNode.removeChild(document.getElementById("right"));
     }
     */
-    
-    
-    /*********************************** 
+
+
+    /***********************************
      ***** Stuff Gets Called Here ******
      ***********************************/
-    
+
     my.pictures.init( defaultInput );
     my.postNewPics();
     my.eventHandler();
-   
+
     return my;
-    
+
 } )();
