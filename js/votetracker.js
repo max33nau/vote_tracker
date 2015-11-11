@@ -127,11 +127,13 @@ var VOTE_MODULE = (function() {
     }
 
     my.eventHandler = function() {
-        var leftPic = document.getElementById( "left" );
-        leftPic.addEventListener( "click",function() { my.click( "left" ) }, false);
-        var rightPic = document.getElementById("right");
-        rightPic.addEventListener( "click", function() { my.click( "right" ) }, false);
-        //$( leftPic ).click(function() { my.click( "left" ) }, false));
+        $("#left").on("click",function() { my.click( "left" ) });
+        $("#right").on("click",function() { my.click( "right" ) });
+        //var leftPic = document.getElementById( "left" );
+        //leftPic.addEventListener( "click",function() { my.click( "left" ) }, false);
+        //var rightPic = document.getElementById("right");
+        //rightPic.addEventListener( "click", function() { my.click( "right" ) }, false);
+        
         return true;
        
 }
