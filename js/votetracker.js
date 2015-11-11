@@ -5,6 +5,8 @@
  *              Max Jacobson   *
  * CF201        Fall 2015      *
  * * * * * * * * * * * * * * * */
+//$(document).ready(function() {
+                
 
 var defaultInput = [ [ "Asparagus",   "asparagus-2039__180.jpg" ],
                      [ "Avocado",     "avocado-161822__180.png" ],
@@ -27,8 +29,9 @@ var defaultInput = [ [ "Asparagus",   "asparagus-2039__180.jpg" ],
                      [ "Soup",        "whipcreamSoup.jpg" ],
                      [ "Pepper",      "yellowpepper-22111__180.jpg" ] ];
 
-//----adding global var to store total votes for al items to be used for charting percents--//
-var total =20;
+//----adding global var to store total votes for all items to be used for charting percents--//
+var total =0;
+var myChartObj = {};
     /* * * * * * * * * * * * * * * * * * *
      * * * * * * CONSTRUCTORS  * * * * * *
      * * * * * * * * * * * * * * * * * * */
@@ -36,7 +39,7 @@ var total =20;
 function Picture( name, fileName ) {
     this.name = name;
     this.fileName = fileName;
-    this.vote = 0;
+    this.vote = Math.floor(Math.random() * 10 + 1);
 }
 
 function ImageElement( fileName, position ) {
@@ -64,6 +67,8 @@ var VOTE_MODULE = (function() {
     	    var picture = new Picture( initData[ii][0],
                                        initData[ii][1] );
     	    my.pictures.push( picture );
+            total += picture.vote;//adding random votes to test per HW12
+            console.log("show total: " + total); 
     	}
     }
 
@@ -88,8 +93,6 @@ var VOTE_MODULE = (function() {
 	    // Splice() deletes an element from an array and returns it as a single
 	    // element array. We dereference it and push onto our array of indices.
 	    my.randomizedIndices.push( tempIndexArray.splice( index , 1 ) );
-
-    console.log("temp after: " + my.randomizedIndices);
 	}
 }
 
@@ -103,7 +106,6 @@ var VOTE_MODULE = (function() {
 	// Store left and right index
 
 	my.contestants = [ my.randomizedIndices.pop(), my.randomizedIndices.pop() ];
-  console.log(my.contestants);
 
 	// If the image tags exist, update their source tags. Otherwise, create them.
 	if ( document.getElementById( "left" ) && document.getElementById( "right" ) ) {
@@ -129,9 +131,10 @@ var VOTE_MODULE = (function() {
         leftPic.addEventListener( "click",function() { my.click( "left" ) }, false);
         var rightPic = document.getElementById("right");
         rightPic.addEventListener( "click", function() { my.click( "right" ) }, false);
+        //$( leftPic ).click(function() { my.click( "left" ) }, false));
         return true;
-    }
-
+       
+}
     my.click = function( position ) {
         if( position == "left" ) {
             my.pictures[ my.contestants[0] ].vote++;
@@ -145,37 +148,36 @@ var VOTE_MODULE = (function() {
             return false;
         }
 	// Update the page with new pics
+        if (myChartObj) { myChartObj.destroy()};
         my.postNewPics();
     }
 
 //----------------charting section------------------------------//
 function buildChart (){
     var ctx = document.getElementById("myChart").getContext("2d");
-    var myChartObj = {};
     var leftContestant = my.pictures[ my.contestants[0]];
     var rightContestant = my.pictures[ my.contestants[1]];
-var data = {
-    labels: [leftContestant.name, rightContestant.name],
-    datasets: [
-      { label: "Raw votes",
-        fillColor: "rgba(220,220,220,0.5)",
-        strokeColor: "rgba(220,220,220,0.8)",
-        highlightFill: "rgba(220,220,220,0.75)",
-        highlightStroke: "rgba(220,220,220,1)",
-        data: [leftContestant.vote, rightContestant.vote] // Bogus data -- use your vote counts instead
-      },
-      { label: "Percentage split",
-        fillColor: "rgba(151,187,205,0.5)",
-        strokeColor: "rgba(151,187,205,0.8)",
-        highlightFill: "rgba(151,187,205,0.75)",
-        highlightStroke: "rgba(151,187,205,1)",
-        data: [leftContestant.vote/(total), rightContestant.vote/(total)]
-      }
-    ]
-  };
+    var data = {
+        labels: [leftContestant.name, rightContestant.name],
+        datasets: [
+          { label: "Raw votes",
+            fillColor: "rgba(220,220,220,0.5)",
+            strokeColor: "rgba(220,220,220,0.8)",
+            highlightFill: "rgba(220,220,220,0.75)",
+            highlightStroke: "rgba(220,220,220,1)",
+            data: [leftContestant.vote, rightContestant.vote] // Bogus data -- use your vote counts instead
+          },
+          { label: "Percentage split",
+            fillColor: "rgba(151,187,205,0.5)",
+            strokeColor: "rgba(151,187,205,0.8)",
+            highlightFill: "rgba(151,187,205,0.75)",
+            highlightStroke: "rgba(151,187,205,1)",
+            data: [ leftContestant.vote/(leftContestant.vote + rightContestant.vote), 
+            rightContestant.vote/(leftContestant.vote + rightContestant.vote)]
+          }
+        ]
+      };
   myChartObj = new Chart(ctx).Bar(data);
-
-  /*** !! Insert code HERE to draw your chart and make it visible !! ***/
 }
 
 
@@ -191,3 +193,5 @@ var data = {
     return my;
 
 } )();
+
+ //});//closing $document ready
