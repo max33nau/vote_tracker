@@ -5,8 +5,6 @@
  *              Max Jacobson   *
  * CF201        Fall 2015      *
  * * * * * * * * * * * * * * * */
-//$(document).ready(function() {
-                
 
 var defaultInput = [ [ "Asparagus",   "asparagus-2039__180.jpg" ],
                      [ "Avocado",     "avocado-161822__180.png" ],
@@ -29,9 +27,7 @@ var defaultInput = [ [ "Asparagus",   "asparagus-2039__180.jpg" ],
                      [ "Soup",        "whipcreamSoup.jpg" ],
                      [ "Pepper",      "yellowpepper-22111__180.jpg" ] ];
 
-//----adding global var to store total votes for all items to be used for charting percents--//
-var total =0;
-var myChartObj = {};
+
     /* * * * * * * * * * * * * * * * * * *
      * * * * * * CONSTRUCTORS  * * * * * *
      * * * * * * * * * * * * * * * * * * */
@@ -39,6 +35,8 @@ var myChartObj = {};
 function Picture( name, fileName ) {
     this.name = name;
     this.fileName = fileName;
+    // Begin with a random number of votes per homework requirement.
+    // (Change to this.vote = 0; at some future date.)
     this.vote = Math.floor(Math.random() * 10 + 1);
 }
 
@@ -56,6 +54,8 @@ var VOTE_MODULE = (function() {
     my.pictures = [ ];
     my.randomizedIndices = [ ];
     my.contestants = [ ];
+    my.voteTotal = 0;
+    my.chart = { };
 
 
     /* * * * * * * * * * * * * * * * * * *
@@ -67,8 +67,9 @@ var VOTE_MODULE = (function() {
     	    var picture = new Picture( initData[ii][0],
                                        initData[ii][1] );
     	    my.pictures.push( picture );
-            total += picture.vote;//adding random votes to test per HW12
-            console.log("show total: " + total); 
+	    // Add random votes to test per HW12
+            my.voteTotal += picture.vote;
+            // console.log("show vote total: " + my.voteTotal);
     	}
     }
 
@@ -78,23 +79,17 @@ var VOTE_MODULE = (function() {
 	    tempIndexArray.push( ii );
 	}
 
-  my.randomizedIndices = [ ];
+	// If there is an odd number of candidates we may have one index
+	// left in our array, so we empty it.
+	my.randomizedIndices = [ ];
 
 	while ( tempIndexArray.length > 0 ) {
-	    // If there is an odd number of candidates we may have one index
-	    // left in our array, so we empty it.
-
-      /*my.randomizedIndices = [ ]; I moved this out of the while loop because
-      everytime you run through the loop it sets the array back to zero so our
-      randomizedIndices array never gets generated. 
-       YOU PUSHED A CODE WITH A BUG IN IT... DONUTS FOR EVERYONE!!!!!*/
-
 	    var index = Math.floor( Math.random() * tempIndexArray.length );
 	    // Splice() deletes an element from an array and returns it as a single
 	    // element array. We dereference it and push onto our array of indices.
 	    my.randomizedIndices.push( tempIndexArray.splice( index , 1 ) );
 	}
-}
+    }
 
     my.postNewPics = function() {
 	// I'm gonna pop two indices so my array needs at least that many.
@@ -104,7 +99,6 @@ var VOTE_MODULE = (function() {
 	}
 
 	// Store left and right index
-
 	my.contestants = [ my.randomizedIndices.pop(), my.randomizedIndices.pop() ];
 
 	// If the image tags exist, update their source tags. Otherwise, create them.
@@ -113,17 +107,16 @@ var VOTE_MODULE = (function() {
 	    var rightImage = document.getElementById( "right" );
 	    leftImage.src  = ( "img/" +  my.pictures[ my.contestants[0] ].fileName );
 	    rightImage.src = ( "img/" +  my.pictures[ my.contestants[1] ].fileName );
-        buildChart();
 	} else {
-
 	    var leftImage =  new ImageElement( my.pictures[ my.contestants[0] ].fileName,
 					       "left");
 	    var rightImage = new ImageElement( my.pictures[ my.contestants[1] ].fileName,
 					       "right");
 	    my.anchorNode.appendChild( leftImage.element );
 	    my.anchorNode.appendChild( rightImage.element );
-        buildChart();
 	}
+	// We also need to update the chart
+	my.chartBuilder();
     }
 
     my.eventHandler = function() {
@@ -133,56 +126,56 @@ var VOTE_MODULE = (function() {
         //leftPic.addEventListener( "click",function() { my.click( "left" ) }, false);
         //var rightPic = document.getElementById("right");
         //rightPic.addEventListener( "click", function() { my.click( "right" ) }, false);
-        
-        return true;
-       
-}
+    }
+
     my.click = function( position ) {
         if( position == "left" ) {
             my.pictures[ my.contestants[0] ].vote++;
-            total++;
-
+            my.voteTotal++;
         } else if( position == "right" ) {
             my.pictures[my.contestants[1]].vote++;
-            total++;
+            my.voteTotal++;
         } else {
             console.log( " MODULE method my.click() was passes an invalid parameter" );
             return false;
         }
-	// Update the page with new pics
-        if (myChartObj) { myChartObj.destroy()};
+	// Destroy chart and update the page with new set of pics and chart
+        if ( my.chart ) {
+	    my.chart.destroy()
+	}
         my.postNewPics();
     }
 
-//----------------charting section------------------------------//
-function buildChart (){
-    var ctx = document.getElementById("myChart").getContext("2d");
-    var leftContestant = my.pictures[ my.contestants[0]];
-    var rightContestant = my.pictures[ my.contestants[1]];
-    var data = {
-        labels: [leftContestant.name, rightContestant.name],
-        datasets: [
-          { label: "Raw votes",
-            fillColor: "rgba(220,220,220,0.5)",
-            strokeColor: "rgba(220,220,220,0.8)",
-            highlightFill: "rgba(220,220,220,0.75)",
-            highlightStroke: "rgba(220,220,220,1)",
-            data: [leftContestant.vote, rightContestant.vote] // Bogus data -- use your vote counts instead
-          },
-          { label: "Percentage split",
-            fillColor: "rgba(151,187,205,0.5)",
-            strokeColor: "rgba(151,187,205,0.8)",
-            highlightFill: "rgba(151,187,205,0.75)",
-            highlightStroke: "rgba(151,187,205,1)",
-            data: [ leftContestant.vote/(leftContestant.vote + rightContestant.vote), 
-            rightContestant.vote/(leftContestant.vote + rightContestant.vote)]
-          }
-        ]
-      };
-  myChartObj = new Chart(ctx).Bar(data);
-}
-
-
+    my.chartBuilder = function() {
+	var canvasAnchor = document.getElementById( "myChart" ).getContext( "2d" );
+	var leftContestant = my.pictures[ my.contestants[0] ];
+	var rightContestant = my.pictures[ my.contestants[1] ];
+	var contestantData = {
+            labels: [ leftContestant.name, rightContestant.name ],
+            datasets: [ { label: "Raw votes",
+			  fillColor: "rgba(220,220,220,0.5)",
+			  strokeColor: "rgba(220,220,220,0.8)",
+			  highlightFill: "rgba(220,220,220,0.75)",
+			  highlightStroke: "rgba(220,220,220,1)",
+			  // Bogus data -- use your vote counts instead
+			  data: [leftContestant.vote, rightContestant.vote] 
+			},
+		
+			{ label: "Percentage split",
+			  fillColor: "rgba(151,187,205,0.5)",
+			  strokeColor: "rgba(151,187,205,0.8)",
+			  highlightFill: "rgba(151,187,205,0.75)",
+			  highlightStroke: "rgba(151,187,205,1)",
+			  data: [ leftContestant.vote/( leftContestant.vote + rightContestant.vote ), 
+				  rightContestant.vote/( leftContestant.vote + rightContestant.vote ) ]
+			}
+		      ]
+	};
+	
+	my.chart = new Chart(canvasAnchor).Bar(contestantData);
+    }
+    
+    
 
     /***********************************
      ***** Stuff Gets Called Here ******
@@ -195,5 +188,3 @@ function buildChart (){
     return my;
 
 } )();
-
- //});//closing $document ready
