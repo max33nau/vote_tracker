@@ -1,39 +1,54 @@
-@media screen and (min-width: 601px) {
+@media screen and (max-width: 450px) {
   #Header {
     background-color: #FFFF00;
     border: 3px solid white;
-    width: 760px;
+    width: 360px;
     text-align: center;
     max-width: 80%;
     margin: auto auto 20px auto;
-    padding: 20px;
+    padding: 10px;
     border-radius: 10px;
     font-family: 'Indie Flower', cursive;
+    font-size: 1.2em;
   }
 
   #MainBody {
-    width: 960px;
+    width: 400px;
     text-align: center;
     max-width: 100%;
     margin: 10px auto;
     background-image: url('../background.jpg')
   }
 
+  #AnchorNode {
+    float: none;
+    display: block;
+  }
+
   .contestants {
-    width: 250px;
-    height: 250px;
-    margin: 20px;
+    width: 100px;
+    height: 100px;
+    margin: 10px;
     max-width: 100%;
     border: 2px solid black;
     background-color: white;
+    margin: 10px auto;
+    text-align: center;
   }
 
   .contestants:hover {
-    border: 10px solid white;
+    border: 5px solid white;
+  }
+
+  #chart {
+    float: none;
+    display: block;
+    text-align: center;
   }
 
   #myChart {
-    width: 500px;
-    height: 350px;
+    margin-top: 20px;
+    width: 200px;
+    height: 150px;
   }
 }
