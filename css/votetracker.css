@@ -20,8 +20,8 @@
 }
 
 .contestants {
-  width: 300px;
-  height: 300px;
+  width: 250px;
+  height: 250px;
   margin: 20px;
   max-width: 100%;
   border: 2px solid black;
@@ -32,7 +32,12 @@
   border: 10px solid white;
 }
 
-@media screen and (max-width: 750px) {
+
+  #myChart {
+    width: 250px;
+    height: 250px;
+  }
+@media screen and (max-width: 450px) {
 
   #Header {
     background-color: #FFFF00;
@@ -55,8 +60,8 @@
   }
 
   .contestants {
-    width: 200px;
-    height: 200px;
+    width: 100px;
+    height: 100px;
     margin: 10px;
     max-width: 100%;
     border: 2px solid black;
@@ -68,8 +73,8 @@
   }
 
   #myChart {
-    width: 250px;
-    height: 250px;
+    width: 200px;
+    height: 200px;
   }
 
 }
