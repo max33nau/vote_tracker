@@ -31,3 +31,45 @@
 .contestants:hover {
   border: 10px solid white;
 }
+
+@media screen and (max-width: 750px) {
+
+  #Header {
+    background-color: #FFFF00;
+    border: 3px solid white;
+    width: 360px;
+    text-align: center;
+    max-width: 80%;
+    margin: auto auto 20px auto;
+    padding: 20px;
+    border-radius: 10px;
+    font-family: 'Indie Flower', cursive;
+  }
+
+  #MainBody {
+    width: 400px;
+    text-align: center;
+    max-width: 100%;
+    margin: 10px auto;
+    background-image: url('../mobilebackgound.jpg')
+  }
+
+  .contestants {
+    width: 200px;
+    height: 200px;
+    margin: 10px;
+    max-width: 100%;
+    border: 2px solid black;
+    background-color: white;
+  }
+
+  .contestants:hover {
+    border: 5px solid white;
+  }
+
+  #myChart {
+    width: 250px;
+    height: 250px;
+  }
+
+}
