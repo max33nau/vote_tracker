@@ -37,20 +37,29 @@ function Picture( name, fileName ) {
     this.fileName = fileName;
     // Begin with a random number of votes per homework requirement.
     // (Change to this.vote = 0; at some future date.)
-    this.vote = Math.floor(Math.random() * 10 + 1);
+    this.vote = 0; //Math.floor(Math.random() * 10 + 1);
 }
 
-function ImageElement( fileName, position ) {
+function JQImage( fileName, position ) {
+    this.$element = $('<img></img>')
+	.attr( { 'src': "img/" + fileName,
+		 'id':  position } )
+	.addClass( 'contestants' );
+}
+
+/*
+// This object has been obviated by the above JQImage
+function Image( fileName, position ) {
     this.element = document.createElement( "img" );
-    this.element.src = ( "img/" +  fileName );
+    this.element.src = ( "img/" + fileName );
     this.element.id = position;
     this.element.className = "contestants"
 }
+*/
 
 var VOTE_MODULE = (function() {
 
     var my = { };
-    my.anchorNode = document.getElementById( "AnchorNode" );
     my.pictures = [ ];
     my.randomizedIndices = [ ];
     my.contestants = [ ];
@@ -102,24 +111,30 @@ var VOTE_MODULE = (function() {
 	my.contestants = [ my.randomizedIndices.pop(), my.randomizedIndices.pop() ];
 
 	// If the image tags exist, update their source tags. Otherwise, create them.
-	if ( document.getElementById( "left" ) && document.getElementById( "right" ) ) {
-	    var leftImage  = document.getElementById( "left" );
-	    var rightImage = document.getElementById( "right" );
-	    leftImage.src  = ( "img/" +  my.pictures[ my.contestants[0] ].fileName );
-	    rightImage.src = ( "img/" +  my.pictures[ my.contestants[1] ].fileName );
+	if ( $( '#left' )[0] && $( '#right' )[0] ) {
+	    $( '#left' ).attr( 'src', "img/" +  my.pictures[ my.contestants[0] ].fileName );
+	    $( '#right' ).attr( 'src', "img/" +  my.pictures[ my.contestants[1] ].fileName );
+	    // var leftImage  = document.getElementById( "left" );
+	    // var rightImage = document.getElementById( "right" );
+	    // leftImage.src  = ( "img/" +  my.pictures[ my.contestants[0] ].fileName );
+	    // rightImage.src = ( "img/" +  my.pictures[ my.contestants[1] ].fileName );
 	} else {
-	    var leftImage =  new ImageElement( my.pictures[ my.contestants[0] ].fileName,
-					       "left");
-	    var rightImage = new ImageElement( my.pictures[ my.contestants[1] ].fileName,
-					       "right");
-	    my.anchorNode.appendChild( leftImage.element );
-	    my.anchorNode.appendChild( rightImage.element );
+	    // var leftImage =  new ImageElement( my.pictures[ my.contestants[0] ].fileName,
+	    // 				          "left");
+	    // var rightImage = new ImageElement( my.pictures[ my.contestants[1] ].fileName,
+	    //				          "right");
+	    var $anchorNode = $( "#AnchorNode" );
+	    var leftImage = new JQImage( my.pictures[ my.contestants[0] ].fileName, 'left' );
+	    var rightImage = new JQImage( my.pictures[ my.contestants[1] ].fileName, 'right' );
+	    $anchorNode.after( leftImage.$element );
+	    $anchorNode.after( rightImage.$element );
 	}
 	// We also need to update the chart
 	my.chartBuilder();
     }
 
     my.eventHandler = function() {
+	// JQuery replacement of JavaScript code
         $("#left").on("click",function() { my.click( "left" ) });
         $("#right").on("click",function() { my.click( "right" ) });
         //var leftPic = document.getElementById( "left" );
@@ -147,24 +162,25 @@ var VOTE_MODULE = (function() {
     }
 
     my.chartBuilder = function() {
-	var canvasAnchor = document.getElementById( "myChart" ).getContext( "2d" );
+	// var canvasAnchor = document.getElementById( "myChart" ).getContext( "2d" );
+	var $canvasAnchor = $( "#myChart" ).get( 0 ).getContext( "2d" );
 	var leftContestant = my.pictures[ my.contestants[0] ];
 	var rightContestant = my.pictures[ my.contestants[1] ];
 	var contestantData = {
             labels: [ leftContestant.name, rightContestant.name ],
-            datasets: [ { label: "Raw votes",
-			  fillColor: "rgba(220,220,220,0.5)",
-			  strokeColor: "rgba(220,220,220,0.8)",
-			  highlightFill: "rgba(220,220,220,0.75)",
+            datasets: [ { label:           "Raw votes",
+			  fillColor:       "rgba(220,220,220,0.5)",
+			  strokeColor:     "rgba(220,220,220,0.8)",
+			  highlightFill:   "rgba(220,220,220,0.75)",
 			  highlightStroke: "rgba(220,220,220,1)",
 			  // Bogus data -- use your vote counts instead
-			  data: [leftContestant.vote, rightContestant.vote] 
+			  data: [ leftContestant.vote, rightContestant.vote ] 
 			},
 		
-			{ label: "Percentage split",
-			  fillColor: "rgba(151,187,205,0.5)",
-			  strokeColor: "rgba(151,187,205,0.8)",
-			  highlightFill: "rgba(151,187,205,0.75)",
+			{ label:           "Percentage split",
+			  fillColor:       "rgba(151,187,205,0.5)",
+			  strokeColor:     "rgba(151,187,205,0.8)",
+			  highlightFill:   "rgba(151,187,205,0.75)",
 			  highlightStroke: "rgba(151,187,205,1)",
 			  data: [ leftContestant.vote/( leftContestant.vote + rightContestant.vote ), 
 				  rightContestant.vote/( leftContestant.vote + rightContestant.vote ) ]
@@ -172,7 +188,7 @@ var VOTE_MODULE = (function() {
 		      ]
 	};
 	
-	my.chart = new Chart(canvasAnchor).Bar(contestantData);
+	my.chart = new Chart($canvasAnchor).Bar(contestantData);
     }
     
     
