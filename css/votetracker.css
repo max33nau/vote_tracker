@@ -10,13 +10,18 @@
   border-radius: 10px;
   font-family: 'Indie Flower', cursive;
 }
-
+#street-view {
+  height: 25%;
+  width: 25%;
+  z-index: 3;
+}
 #MainBody {
   width: 960px;
   text-align: center;
   max-width: 100%;
   margin: 10px auto;
-  background-image: url('../background.jpg')
+  background-image: url('../background.jpg');
+  z-index: 1;
 }
 
 .contestants {
@@ -30,4 +35,14 @@
 
 .contestants:hover {
   border: 10px solid white;
+}
+
+.vacationHide {
+  display: none
+}
+.vacation {
+  display: block;
+  width: 250px;
+  border: 2px solid white;
+  color: white; 
 }

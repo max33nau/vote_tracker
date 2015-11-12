@@ -4,8 +4,21 @@
 		<meta charset="utf-8">
 		<title>Food Vote Tracker</title>
 		<link rel="stylesheet" href="css/votetracker.css"/>
-		<link href='https://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
-		
+		<link href='https://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>	
+		<!--<style>
+      	html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #street-view {
+        height: 25%;
+        width: 25%;
+      }
+    </style>-->
+     <!--<script async defer
+         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBuLzy72ZhpOxhZrtAAg8dWGQXDKbYHTCg&signed_in=true&callback=initialize">
+    </script>-->
 	</head>
 	
 	<body id = "MainBody">
@@ -17,8 +30,34 @@
 		<div>
 		  <canvas id="myChart" width="400" height="400"></canvas>
 		</div>
+		<fieldset class="vacation">
+			<legend>Choose your vacation destination</legend>
+			<label class="country">Country:
+				<input id="countryInput" type="text" placeholder="US" name="Country" maxlength="30" required />
+			</label><br />
+			<label class="city">City:
+				<input id="cityInput" type="text" placeholder="Portland" name="City" maxlength="30" required />
+			</label><br />
+				<input id="submitButton" type="button" name="Submit" value="Submit" />
+			</label>
+		</fieldset>
+		<div id="street-view"></div>
+    <!--<script>
+     var panorama;
+     function initialize() {
+     panorama = new google.maps.StreetViewPanorama(
+      document.getElementById('street-view'),
+      {
+        position: {lat: 37.869260, lng: -122.254811},
+        pov: {heading: 165, pitch: 0},
+        zoom: 1
+      });
+}
+    </script>-->
+
 		<script src="js/jquery-2.1.4.js"></script>
 		<script src="bower_components/Chart.js/Chart.js"></script>
 		<script src="js/votetracker.js"> </script>
+		
 	</body>
 </html>

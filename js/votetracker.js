@@ -122,10 +122,10 @@ var VOTE_MODULE = (function() {
     my.eventHandler = function() {
         $("#left").on("click",function() { my.click( "left" ) });
         $("#right").on("click",function() { my.click( "right" ) });
+        $("#submitButton").on("click", function() {my.weather()});
         //var leftPic = document.getElementById( "left" );
         //leftPic.addEventListener( "click",function() { my.click( "left" ) }, false);
-        //var rightPic = document.getElementById("right");
-        //rightPic.addEventListener( "click", function() { my.click( "right" ) }, false);
+
     }
 
     my.click = function( position ) {
@@ -175,7 +175,33 @@ var VOTE_MODULE = (function() {
 	my.chart = new Chart(canvasAnchor).Bar(contestantData);
     }
     
+my.weather = function() {
+
+    var cityName = $("#cityInput").val();
+    var weatherUrl = "http://api.openweathermap.org/data/2.5/weather?q={" + cityName + 
+    "}&APPID=ee8ca027aca5a5ddd4994e6a9dcca05c";
+    console.log("this is the api url: " + weatherUrl);
+
+    $.ajax(
+    {    url: weatherUrl
+    }).done(function(weatherData){
+        var city = weatherData.name;
+        var country = weatherData.sys.country;
+        var temp = weatherData.main.temp;
+        var description = weatherData.weather[0].description;
+        var weatherIcon = weatherData.weather[0].icon;
+        var windSpeed = weatherData.wind.speed;
+        var windDirection = weatherData.wind.deg;
+        var longitude= weatherData.coord.lon;
+        console.log("long for portland" + longitude);
+        var latitude = weatherData.coord.lat;
+        console.log("lat is: " + latitude);
+    })
     
+}
+    
+
+        
 
     /***********************************
      ***** Stuff Gets Called Here ******
@@ -188,3 +214,4 @@ var VOTE_MODULE = (function() {
     return my;
 
 } )();
+
