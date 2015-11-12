@@ -22,14 +22,12 @@ var defaultInput = [ [ "Asparagus",   "asparagus-2039__180.jpg" ],
 function Picture( name, fileName ) {
     this.name = name;
     this.fileName = fileName;
-    this.vote = Math.floor(Math.random() * 10 + 1);
-}
+    this.vote = Math.floor(Math.random() * 10 + 1);}
 function ImageElement( fileName, position ) {
     this.element = document.createElement( "img" );
     this.element.src = ( "img/" +  fileName );
     this.element.id = position;
-    this.element.className = "contestants"
-}
+    this.element.className = "contestants"}
 var VOTE_MODULE = (function() {
     var my = { };
     my.anchorNode = document.getElementById( "AnchorNode" );
@@ -43,20 +41,15 @@ var VOTE_MODULE = (function() {
     	    var picture = new Picture( initData[ii][0],
                                        initData[ii][1] );
     	    my.pictures.push( picture );
-            my.voteTotal += picture.vote;
-    	}
-    }
+            my.voteTotal += picture.vote;}}
     my.generateRandomIndices = function( length ) {
 	var tempIndexArray = [ ];
 	for ( var ii = 0; ii < length; ii++ ) {
-	    tempIndexArray.push( ii );
-	}
+	    tempIndexArray.push( ii );}
 	my.randomizedIndices = [ ];
 	while ( tempIndexArray.length > 0 ) {
 	    var index = Math.floor( Math.random() * tempIndexArray.length );
-	    my.randomizedIndices.push( tempIndexArray.splice( index , 1 ) );
-	}
-    }
+	    my.randomizedIndices.push( tempIndexArray.splice( index , 1 ) );}}
     my.postNewPics = function() {
 	if ( my.randomizedIndices.length < 2 ) {
 	    my.generateRandomIndices( my.pictures.length );
