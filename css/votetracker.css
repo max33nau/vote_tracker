@@ -1,4 +1,4 @@
- @charset "utf-8";
+@charset "utf-8";
 
 @media screen and (min-width: 37.563em) {
    #Header {
@@ -11,9 +11,7 @@
      padding: 20px;
      border-radius: 10px;
      font-family: sans-serif, cursive;
-
    }
-
    #MainBody {
      width: 60em;
      text-align: center;
