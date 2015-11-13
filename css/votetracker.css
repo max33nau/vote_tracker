@@ -13,7 +13,6 @@
 #street-view {
   height: 25%;
   width: 25%;
-  z-index: 3;
 }
 #MainBody {
   width: 960px;
