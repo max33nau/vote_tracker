@@ -1,50 +1,50 @@
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<title>Food Vote Tracker</title>
-		<link rel="stylesheet" href="css/votetracker.css"/>
-		<link href='https://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>	
-		<!--<style>
-      	html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-      #street-view {
-        height: 25%;
-        width: 25%;
-      }
-    </style>-->
-     <script async defer
-         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBuLzy72ZhpOxhZrtAAg8dWGQXDKbYHTCg&signed_in=true">
-    </script>
-	</head>
-	
-	<body id = "MainBody">
-		<header>
-			<h1 id="Header"> Food Vote Tracker </h1>
-		</header>
-		<div id="AnchorNode">
-		</div>
-		<div>
-		  <canvas id="myChart" width="400" height="400"></canvas>
-		</div>
-		<fieldset class="vacation">
-			<legend>Choose your vacation destination</legend>
-			<label class="country">Country:
-				<input id="countryInput" type="text" placeholder="US" name="Country" maxlength="30" required />
-			</label><br />
-			<label class="city">City:
-				<input id="cityInput" type="text" placeholder="Portland" name="City" maxlength="30" required />
-			</label><br />
-				<input id="submitButton" type="button" name="Submit" value="Submit" />
-			</label>
-		</fieldset>
-		<div id="street-view"></div>
-		<script src="js/jquery-2.1.4.js"></script>
-		<script src="bower_components/Chart.js/Chart.js"></script>
-		<script src="js/votetracker.js"> </script>
-		
-	</body>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head> <meta name='viewport' content='width=device-width' />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Food Vote Tracker</title>
+<link rel='icon' href='data:;base64,iVBORw0KGgo='/><link
+rel="stylesheet" href="css/votetracker.css"/>
+<!--<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBuLzy72ZhpOxhZrtAAg8dWGQXDKbYHTCg&signed_in=true&callback=initialize">
+</script>-->
+</head>
+<body id = "MainBody">
+<header>
+<h1 id="Header"> Food Vote Tracker </h1>
+</header>
+<div id="AnchorNode"></div>
+<div id="chart">
+  <canvas id="myChart" ></canvas>
+</div>
+<div id="chart">
+  <canvas id="weatherChart" ></canvas>
+</div>
+<fieldset class="vacation">
+<legend>Choose your vacation destination</legend>
+<label class="country">Country:
+<input id="countryInput" type="text" placeholder="US" name="Country" maxlength="30" required />
+</label><br />
+<label class="city">City:
+<input id="cityInput" type="text" placeholder="Portland" name="City" maxlength="30" required />
+</label><br />
+<input id="submitButton" type="button" name="Submit" value="Submit" />
+</label>
+</fieldset>
+<div id="street-view"></div>
+<!--<script>
+  var panorama;
+  function initialize() {
+     panorama = new google.maps.StreetViewPanorama(
+     document.getElementById( 'street-view' ),
+     { position: { lat: 37.869260, lng: -122.254811 },
+       pov:      { heading: 165, pitch: 0 },
+       zoom: 1
+     });
+  }
+</script>-->
+​
+<script type="text/javascript" src="js/jquery-2.1.4.js"></script>
+<script type="text/javascript" src="bower_components/Chart.js/Chart.js"></script>
+<script type="text/javascript" src="js/votetracker.js"> </script>
+</body></html>
 </html>
